@@ -1,5 +1,8 @@
-package com.bnov.bfb.bfbcore.authentication;
+package com.bnov.bfb.bfbweb;
 
+import com.bnov.bfb.bfbcore.authentication.SimplePasswordEncoder;
+import nz.net.ultraq.thymeleaf.LayoutDialect;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,13 +11,18 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-public class AuthenticationConfiguration extends WebSecurityConfigurerAdapter {
+public class WebConfiguration extends WebSecurityConfigurerAdapter {
+    public WebConfiguration(UserDetailsServiceImpl userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
+    @Bean
+    public LayoutDialect layoutDialect() {
+        return new LayoutDialect();
+    }
 
     private final UserDetailsServiceImpl userDetailsService;
 
-    public AuthenticationConfiguration(UserDetailsServiceImpl userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -27,6 +35,4 @@ public class AuthenticationConfiguration extends WebSecurityConfigurerAdapter {
         super.configure(http);
         http.csrf().disable();
     }
-
-
 }

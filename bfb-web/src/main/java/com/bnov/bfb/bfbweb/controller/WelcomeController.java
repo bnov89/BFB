@@ -1,11 +1,8 @@
-package com.bnov.bfb.bfbcore.controller;
+package com.bnov.bfb.bfbweb.controller;
 
-import com.bnov.bfb.bfbcore.service.UserService;
 import com.bnov.bfb.bfbcore.service.model.User;
-import org.apache.tomcat.util.codec.binary.Base64;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -20,12 +17,13 @@ import java.util.Map;
 
 @Controller
 public class WelcomeController {
-
-    private final UserService userService;
+    @Value("${bfb.security.core.rest.login}")
+    private String REST_SERVICES_USER;
+    @Value("${bfb.security.core.rest.password}")
+    private String REST_SERVICES_PASSWORD;
     private String USER_REST_SERVICE_URI = "http://localhost:8080/";
-    @Autowired
-    public WelcomeController(UserService userService) {
-        this.userService = userService;
+
+    public WelcomeController() {
     }
 
 
@@ -48,7 +46,7 @@ public class WelcomeController {
     public ModelAndView addUser(@RequestBody MultiValueMap<String, String> formParams) {
         String login = formParams.getFirst("login");
         RestTemplate template = new RestTemplateBuilder()
-                .basicAuthorization("bartek", "nowak")
+                .basicAuthorization(REST_SERVICES_USER, REST_SERVICES_PASSWORD)
                 .build();
         ResponseEntity<User> addedUser = template.postForEntity(USER_REST_SERVICE_URI + "user/add/", new User(login, formParams.getFirst("password")), User.class);
         ModelAndView result = new ModelAndView("views/addUser");

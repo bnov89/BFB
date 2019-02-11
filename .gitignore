@@ -1,4 +1,6 @@
 /target/
+/bfb-core/target/
+/bfb-web/target/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###

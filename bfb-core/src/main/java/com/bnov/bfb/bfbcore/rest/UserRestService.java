@@ -3,6 +3,7 @@ package com.bnov.bfb.bfbcore.rest;
 import com.bnov.bfb.bfbcore.service.UserService;
 import com.bnov.bfb.bfbcore.service.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +21,12 @@ public class UserRestService {
     }
 
     @RequestMapping(value = REST_SERVICE_PREFIX + "/add/", method = RequestMethod.POST)
-    public User addUser(@RequestBody(required = true) User user) {
+    public User addUser(@RequestBody User user) {
         return userService.addUser(user);
+    }
+
+    @RequestMapping(value = REST_SERVICE_PREFIX + "/login/{login}")
+    public User findUser(@PathVariable(value = "login") String login) {
+        return userService.findByLogin(login);
     }
 }

@@ -22,4 +22,9 @@ public class UserService {
         result.setId(addedUser.getId());
         return result;
     }
+
+    public User findByLogin(String login) {
+        com.bnov.bfb.bfbcore.model.User foundUser = userRepository.findByLogin(login);
+        return new User(foundUser.getLogin(), foundUser.getPassword());
+    }
 }

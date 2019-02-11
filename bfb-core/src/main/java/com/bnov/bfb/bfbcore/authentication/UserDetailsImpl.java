@@ -9,7 +9,7 @@ public class UserDetailsImpl implements org.springframework.security.core.userde
     private String login;
     private String password;
 
-    UserDetailsImpl(String login, String password) {
+    public UserDetailsImpl(String login, String password) {
         this.login = login;
         this.password = password;
     }
