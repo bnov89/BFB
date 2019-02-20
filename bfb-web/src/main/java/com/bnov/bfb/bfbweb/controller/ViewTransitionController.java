@@ -16,14 +16,14 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.Map;
 
 @Controller
-public class WelcomeController {
+public class ViewTransitionController {
     @Value("${bfb.security.core.rest.login}")
     private String REST_SERVICES_USER;
     @Value("${bfb.security.core.rest.password}")
     private String REST_SERVICES_PASSWORD;
     private String USER_REST_SERVICE_URI = "http://localhost:8080/";
 
-    public WelcomeController() {
+    public ViewTransitionController() {
     }
 
 
@@ -34,7 +34,6 @@ public class WelcomeController {
 
     @RequestMapping("/views/addUser")
     public String showAddUserView(Map<String, Object> model) {
-        model.put("message", "aaa");
         return "views/addUser";
     }
 
