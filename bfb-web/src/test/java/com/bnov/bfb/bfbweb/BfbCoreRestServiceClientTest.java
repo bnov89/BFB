@@ -11,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.client.response.MockRestResponseCreators;
 import org.springframework.web.client.RestTemplate;
@@ -46,22 +49,22 @@ public class BfbCoreRestServiceClientTest {
 
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         server = MockRestServiceServer.createServer(template);
-        client = new BfbCoreRestServiceClient(URI, template);
+        client = new BfbCoreRestServiceClient(template);
+        // FIXME WORKAROUND till https://github.com/spring-projects/spring-framework/commit/541ee13934cf8c1dfcbcfadce2bb6299bd25900c is not merged
+        final ClientHttpRequestFactory requestFactory = (ClientHttpRequestFactory) ReflectionTestUtils.getField(template, "requestFactory");
+        template.setRequestFactory(new BufferingClientHttpRequestFactory(requestFactory));
     }
 
     @Test
     public void givenConfiguration_requestSentToCorrectUrlAndReturnCorrectUser() throws JsonProcessingException {
         User user = new User(LOGIN, PASSWORD);
-        server.expect(requestTo(URI + "/user/login"))
-                .andRespond(MockRestResponseCreators.withSuccess()
-                        .body(objectMapper.writeValueAsString(user))
+        server.expect(requestTo(URI + "/user/login/testLogin"))
+                .andRespond(MockRestResponseCreators.withStatus(HttpStatus.OK)
+                        .body(objectMapper.writeValueAsBytes(user))
                         .contentType(MediaType.APPLICATION_JSON_UTF8));
-
-
-
-        User result = client.addUser("testLogin");
+        User result = client.findByLogin("testLogin");
         assertThat(result).isNotNull();
         assertThat(result.getLogin()).isEqualTo(LOGIN);
         assertThat(result.getPassword()).isEqualTo(PASSWORD);

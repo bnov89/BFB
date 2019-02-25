@@ -21,8 +21,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User foundUser = restClient
-                .getForEntity("/user/login/{login}", User.class, login).getBody();
+        User foundUser = restClient.findByLogin(login);
         return new UserDetailsImpl(foundUser.getLogin(), foundUser.getPassword());
     }
 
