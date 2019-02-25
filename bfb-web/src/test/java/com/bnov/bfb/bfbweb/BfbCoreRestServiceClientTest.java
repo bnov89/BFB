@@ -28,9 +28,9 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 @RunWith(SpringRunner.class)
 @RestClientTest(BfbCoreRestServiceClient.class)
 @SpringBootTest(properties = {
-        "bfb.security.core.rest.login=testLogin",
-        "bfb.security.core.rest.password=testPass",
-        "bfb.security.core.uri=http://testURI"
+        "bfb.web.core.rest.client.user=testLogin",
+        "bfb.web.core.rest.client.password=testPass",
+        "bfb.web.core.rest.client.uri=http://testURI"
 })
 @ContextConfiguration(classes = {RestServiceClientConfiguration.class})
 public class BfbCoreRestServiceClientTest {

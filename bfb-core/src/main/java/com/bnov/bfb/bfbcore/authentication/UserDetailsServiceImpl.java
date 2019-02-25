@@ -1,30 +1,28 @@
 package com.bnov.bfb.bfbcore.authentication;
 
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
+@EnableConfigurationProperties(AuthenticationProperties.class)
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    private AuthenticationProperties properties;
 
-    private final String login;
-    private final String password;
-
-    UserDetailsServiceImpl(
-            @Value("${bfb.core.authentication.login}") String login,
-            @Value("${bfb.core.authentication.password}") String password) {
-        this.login = login;
-        this.password = password;
+    @Autowired
+    UserDetailsServiceImpl(AuthenticationProperties properties) {
+        this.properties = properties;
     }
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        if (this.login.equals(login)) {
-            return new UserDetailsImpl(this.login, password);
+        if (properties.getLogin().equals(login)) {
+            return new UserDetailsImpl(properties.getLogin(), properties.getPassword());
         } else {
             throw new UsernameNotFoundException("User with given login not found!");
         }
