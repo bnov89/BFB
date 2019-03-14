@@ -50,14 +50,14 @@ public class ViewTransitionController {
     @RequestMapping("/views/matches")
     public ModelAndView showMatchListView(Map<String, Object> model) {
         ModelAndView modelAndView = new ModelAndView("views/matches");
-        modelAndView.addObject("matchList", model.get("matchList"));
+        modelAndView.addObject("matchList", coreClient.findAllMatches());
         return modelAndView;
     }
 
     @RequestMapping("/views/teams")
     public ModelAndView showTeamListView(Map<String, Object> model) {
         ModelAndView modelAndView = new ModelAndView("views/teams");
-        modelAndView.addObject("teamList", model.get("teamList"));
+        modelAndView.addObject("teamList", coreClient.findAllTeams());
         return modelAndView;
     }
 
@@ -86,9 +86,7 @@ public class ViewTransitionController {
         String home = formParams.getFirst("home");
         String away = formParams.getFirst("away");
         coreClient.addMatch(new Match(new Team(home), new Team(away)));
-        attrs.addFlashAttribute("matchList", coreClient.findAllMatches());
-        ModelAndView result = new ModelAndView("redirect:/views/matches");
-        return result;
+        return new ModelAndView("redirect:/views/matches");
     }
 
     @RequestMapping(value = "/action/addTeam",
@@ -99,7 +97,6 @@ public class ViewTransitionController {
     public ModelAndView addTeam(@RequestBody MultiValueMap<String, String> formParams, RedirectAttributes attrs) {
         String teamName = formParams.getFirst("name");
         coreClient.addTeam(new Team(teamName));
-        attrs.addFlashAttribute("teamList", coreClient.findAllTeams());
         return new ModelAndView("redirect:/views/teams");
     }
 
