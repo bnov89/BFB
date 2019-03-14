@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{views/layout}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8">
+    <title>Teams</title>
+
+</head>
+<body>
+<div layout:fragment="custom-content">
+    <!--<div th:if="${isUserAdded}">-->
+    <!--<div class="alert alert-success" role="alert">-->
+    <!--User has been added successfully-->
+    <!--&lt;!&ndash;${userId}:${userLogin}&ndash;&gt;-->
+    <!--</div>-->
+    <!--</div>-->
+    <div class="container">
+        <table>
+            <tr th:each="team, stat : ${teamList}">
+                <td th:text="${team.name}"></td>
+                <!--<td th:text="${match.away.name}"></td>-->
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>

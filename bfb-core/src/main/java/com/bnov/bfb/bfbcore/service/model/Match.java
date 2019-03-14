@@ -8,6 +8,9 @@ public class Match {
     private Integer homeGoals;
     private Integer awayGoals;
 
+    public Match() {
+    }
+
     public Match(Team home, Team away) {
         this.home = home;
         this.away = away;

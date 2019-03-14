@@ -3,7 +3,10 @@ package com.bnov.bfb.bfbcore.service.model;
 public class Team {
 
     private Long id;
-    private final String name;
+    private String name;
+
+    public Team() {
+    }
 
     public Team(String name) {
         this.name = name;

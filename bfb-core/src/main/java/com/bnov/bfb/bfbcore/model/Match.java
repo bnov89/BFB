@@ -1,5 +1,6 @@
 package com.bnov.bfb.bfbcore.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,9 +14,9 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Team home;
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
     private Team away;
     private Integer homeGoals;
     private Integer awayGoals;
