@@ -16,6 +16,12 @@ public class Match {
         this.away = away;
     }
 
+    public Match(Long id, Team home, Team away) {
+        this.id = id;
+        this.home = home;
+        this.away = away;
+    }
+
     public Long getId() {
         return id;
     }

@@ -8,6 +8,11 @@ public class Team {
     public Team() {
     }
 
+    public Team(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Team(String name) {
         this.name = name;
     }

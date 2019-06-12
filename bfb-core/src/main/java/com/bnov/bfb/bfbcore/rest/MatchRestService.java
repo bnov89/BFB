@@ -2,6 +2,7 @@ package com.bnov.bfb.bfbcore.rest;
 
 import com.bnov.bfb.bfbcore.service.MatchService;
 import com.bnov.bfb.bfbcore.service.model.Match;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,5 +28,10 @@ public class MatchRestService {
     @RequestMapping(value = REST_SERVICE_PREFIX + "/list")
     public List<Match> findAllMatches() {
         return matchService.findAllMatches();
+    }
+
+    @RequestMapping(value = REST_SERVICE_PREFIX + "/{id}")
+    public Match findById(@PathVariable("id") Long matchId) {
+        return matchService.find(matchId);
     }
 }

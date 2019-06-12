@@ -8,13 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 @Controller
@@ -54,6 +55,21 @@ public class ViewTransitionController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/views/matches/{id}/update", method = RequestMethod.GET)
+    public ModelAndView editMatchView(@PathVariable("id") String matchId) {
+        ModelAndView modelAndView = new ModelAndView("views/addMatch");
+        Match match = coreClient.findMatch(matchId);
+
+        modelAndView.addObject("awayId", match.getAway().getId());
+        modelAndView.addObject("away", match.getAway().getName());
+        modelAndView.addObject("home", match.getHome().getName());
+        modelAndView.addObject("homeId", match.getHome().getId());
+        modelAndView.addObject("matchId", match.getId());
+
+        return modelAndView;
+    }
+
+
     @RequestMapping("/views/teams")
     public ModelAndView showTeamListView(Map<String, Object> model) {
         ModelAndView modelAndView = new ModelAndView("views/teams");
@@ -85,8 +101,25 @@ public class ViewTransitionController {
     public ModelAndView addMatch(@RequestBody MultiValueMap<String, String> formParams, RedirectAttributes attrs) {
         String home = formParams.getFirst("home");
         String away = formParams.getFirst("away");
-        coreClient.addMatch(new Match(new Team(home), new Team(away)));
-        return new ModelAndView("redirect:/views/matches");
+        String homeId = formParams.getFirst("homeId");
+        String awayId = formParams.getFirst("awayId");
+        String matchId = formParams.getFirst("matchId");
+        Long homeLong = null, awayLong = null;
+        Long matchLong = null;
+        if (!StringUtils.isEmpty(homeId)) {
+            homeLong = Long.valueOf(homeId);
+        }
+        if (!StringUtils.isEmpty(awayId)) {
+            awayLong = Long.valueOf(awayId);
+        }
+
+        if (!StringUtils.isEmpty(matchId)) {
+            matchLong = Long.valueOf(matchId);
+        }
+
+        coreClient.addMatch(new Match(matchLong, new Team(homeLong, home), new Team(awayLong, away)));
+        return new ModelAndView("red" +
+                "irect:/views/matches");
     }
 
     @RequestMapping(value = "/action/addTeam",

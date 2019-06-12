@@ -35,6 +35,10 @@ public class BfbCoreRestServiceClient {
         return Arrays.asList(template.getForEntity("/match/list", Match[].class, new HashMap<>()).getBody());
     }
 
+    public Match findMatch(String id) {
+        return template.getForEntity("/match/{id}", Match.class, id).getBody();
+    }
+
     public Team addTeam(Team team) {
         return template.postForEntity("/team/add", team, Team.class).getBody();
     }

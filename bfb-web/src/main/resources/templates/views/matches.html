@@ -22,6 +22,7 @@
             <tr th:each="match, stat : ${matchList}">
                 <td th:text="${match.home.name}"></td>
                 <td th:text="${match.away.name}"></td>
+                <td> <a th:href="@{/views/matches/{id}/update(id=${match.id})}">EDIT</a></td>
             </tr>
         </table>
     </div>

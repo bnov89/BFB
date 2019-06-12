@@ -27,13 +27,16 @@
         <div class="row justify-content-md-center">
             <div class="col-md-4">
                 <form class="needs-validation" action="/action/addMatch" method="post" novalidate>
+                    <input id="homeId" type="hidden" name="homeId" th:value="${homeId}">
+                    <input id="awayId" type="hidden" name="awayId" th:value="${awayId}">
+                    <input id="matchId" type="hidden" name="matchId" th:value="${matchId}">
                     <div class="mb-3">
                         <label for="home">HOME</label>
-                        <input id="home" class="form-control" type="text" name="home">
+                        <input id="home" class="form-control" type="text" name="home" th:value="${home}">
                     </div>
                     <div class="mb-3">
                         <label for="away">AWAY</label>
-                        <input id="away" class="form-control" type="text" name="away">
+                        <input id="away" class="form-control" type="text" name="away" th:value="${away}">
                     </div>
                     <input class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">
                 </form>
