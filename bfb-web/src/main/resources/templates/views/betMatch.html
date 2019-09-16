@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.w3.org/1999/xhtml"
+      layout:decorate="~{views/layout}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8">
+    <title>Bet match</title>
+
+</head>
+<body>
+<div layout:fragment="custom-content">
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>Add Match</h2>
+            <p class="lead">
+                Here you can add new match.
+            </p>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-4">
+                <form class="needs-validation" action="/action/bet" method="post" novalidate>
+<!--                    <input id="homeId" type="hidden" name="homeId" th:value="${homeId}">-->
+<!--                    <input id="awayId" type="hidden" name="awayId" th:value="${awayId}">-->
+                    <input id="matchId" type="hidden" name="matchId" th:value="${matchId}">
+                    <div class="mb-3">
+                        <label for="homeScore" th:value="${home}"></label>
+                        <input id="homeScore" class="form-control" type="text" name="homeScore" th:value="${homeScore}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="awayScore" th:value="${away}"></label>
+                        <input id="awayScore" class="form-control" type="text" name="awayScore" th:value="${awayScore}">
+                    </div>
+                    <input class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

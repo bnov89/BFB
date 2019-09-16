@@ -1,5 +1,6 @@
 package com.bnov.bfb.bfbweb;
 
+import com.bnov.bfb.bfbcore.service.model.Bet;
 import com.bnov.bfb.bfbcore.service.model.Match;
 import com.bnov.bfb.bfbcore.service.model.Team;
 import com.bnov.bfb.bfbcore.service.model.User;
@@ -41,6 +42,10 @@ public class BfbCoreRestServiceClient {
 
     public Team addTeam(Team team) {
         return template.postForEntity("/team/add", team, Team.class).getBody();
+    }
+
+    public Bet addBet(Bet bet) {
+        return template.postForEntity("/bet/add", bet, Bet.class).getBody();
     }
 
     public List<Team> findAllTeams() {

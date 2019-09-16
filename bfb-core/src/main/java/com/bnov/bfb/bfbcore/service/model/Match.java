@@ -1,5 +1,8 @@
 package com.bnov.bfb.bfbcore.service.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Match {
 
     private Long id;
@@ -7,6 +10,15 @@ public class Match {
     private Team away;
     private Integer homeGoals;
     private Integer awayGoals;
+    private List<Bet> bets = new ArrayList<>();
+
+    public List<Bet> getBets() {
+        return bets;
+    }
+
+    public void setBets(List<Bet> bets) {
+        this.bets = bets;
+    }
 
     public Match() {
     }
@@ -20,6 +32,15 @@ public class Match {
         this.id = id;
         this.home = home;
         this.away = away;
+    }
+
+    public Match(Long id, Team home, Team away, List<Bet> bets) {
+        this.id = id;
+        this.home = home;
+        this.away = away;
+        if (bets != null) {
+            this.bets.addAll(bets);
+        }
     }
 
     public Long getId() {

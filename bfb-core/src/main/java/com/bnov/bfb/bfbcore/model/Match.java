@@ -1,11 +1,7 @@
 package com.bnov.bfb.bfbcore.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Match {
@@ -20,6 +16,8 @@ public class Match {
     private Team away;
     private Integer homeGoals;
     private Integer awayGoals;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Bet> bets;
 
     public Match() {
     }
@@ -68,5 +66,13 @@ public class Match {
 
     public void setAwayGoals(Integer awayGoals) {
         this.awayGoals = awayGoals;
+    }
+
+    public List<Bet> getBets() {
+        return bets;
+    }
+
+    public void setBets(List<Bet> bets) {
+        this.bets = bets;
     }
 }

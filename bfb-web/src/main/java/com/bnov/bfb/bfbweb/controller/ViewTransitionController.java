@@ -1,5 +1,6 @@
 package com.bnov.bfb.bfbweb.controller;
 
+import com.bnov.bfb.bfbcore.service.model.Bet;
 import com.bnov.bfb.bfbcore.service.model.Match;
 import com.bnov.bfb.bfbcore.service.model.Team;
 import com.bnov.bfb.bfbcore.service.model.User;
@@ -68,6 +69,19 @@ public class ViewTransitionController {
 
         return modelAndView;
     }
+    @RequestMapping(value = "/views/matches/{id}/bet", method = RequestMethod.GET)
+    public ModelAndView betMatchView(@PathVariable("id") String matchId) {
+        ModelAndView modelAndView = new ModelAndView("views/betMatch");
+        Match match = coreClient.findMatch(matchId);
+        modelAndView.addObject("awayId", match.getAway().getId());
+        modelAndView.addObject("away", match.getAway().getName());
+        modelAndView.addObject("home", match.getHome().getName());
+        modelAndView.addObject("homeId", match.getHome().getId());
+        modelAndView.addObject("matchId", match.getId());
+
+        return modelAndView;
+    }
+
 
 
     @RequestMapping("/views/teams")
@@ -131,6 +145,21 @@ public class ViewTransitionController {
         String teamName = formParams.getFirst("name");
         coreClient.addTeam(new Team(teamName));
         return new ModelAndView("redirect:/views/teams");
+    }
+
+    @RequestMapping(value = "/action/bet",
+            method = RequestMethod.POST,
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.TEXT_HTML_VALUE
+    )
+    public ModelAndView betMatch(@RequestBody MultiValueMap<String, String> formParams, RedirectAttributes attrs) {
+        Bet bet = new Bet();
+
+        bet.setMatchId(Long.valueOf(formParams.getFirst("matchId")));
+        bet.setHomeScore(Integer.valueOf(formParams.getFirst("homeScore")));
+        bet.setAwayScore(Integer.valueOf(formParams.getFirst("awayScore")));
+        coreClient.addBet(bet);
+        return new ModelAndView("redirect:/views/matches");
     }
 
 }

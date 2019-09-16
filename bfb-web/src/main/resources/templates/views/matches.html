@@ -22,7 +22,15 @@
             <tr th:each="match, stat : ${matchList}">
                 <td th:text="${match.home.name}"></td>
                 <td th:text="${match.away.name}"></td>
-                <td> <a th:href="@{/views/matches/{id}/update(id=${match.id})}">EDIT</a></td>
+                <td><a th:href="@{/views/matches/{id}/update(id=${match.id})}">EDIT</a></td>
+                <td><a th:href="@{/views/matches/{id}/bet(id=${match.id})}">BET</a></td>
+                <td>
+                    <ul th:each="bet : ${match.getBets()}">
+                        <li >
+                            <p th:text="${bet.getAwayScore()}"></p>
+                        </li>
+                    </ul>
+                </td>
             </tr>
         </table>
     </div>
