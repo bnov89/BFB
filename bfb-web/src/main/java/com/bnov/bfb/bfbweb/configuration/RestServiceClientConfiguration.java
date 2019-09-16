@@ -10,12 +10,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.support.GenericWebApplicationContext;
 
 import java.util.Collections;
 
 @Configuration
 @EnableConfigurationProperties(CoreRestServiceClientProperties.class)
-public class RestServiceClientConfiguration {
+public class RestServiceClientConfiguration{
 
     private final CoreRestServiceClientProperties properties;
 
@@ -29,8 +30,8 @@ public class RestServiceClientConfiguration {
         return new RestTemplateBuilder()
                 .requestFactory(() -> new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()))
                 .interceptors(Collections.singletonList(new RequestResponseLoggingInterceptor()))
-                .basicAuthorization(properties.getUser(), properties.getPassword())
                 .rootUri(properties.getUri())
+                .basicAuthentication(properties.getUser(), properties.getPassword())
                 .build();
     }
 

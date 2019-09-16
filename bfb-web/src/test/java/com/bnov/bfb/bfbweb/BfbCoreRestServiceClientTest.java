@@ -11,12 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.client.RestClientTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.test.context.BootstrapWith;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestContextBootstrapper;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.DefaultTestContextBootstrapper;
+import org.springframework.test.context.web.WebTestContextBootstrapper;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.test.web.client.response.MockRestResponseCreators;
@@ -27,12 +33,14 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 
 @RunWith(SpringRunner.class)
 @RestClientTest(BfbCoreRestServiceClient.class)
-@SpringBootTest(properties = {
-        "bfb.web.core.rest.client.user=testLogin",
-        "bfb.web.core.rest.client.password=testPass",
-        "bfb.web.core.rest.client.uri=http://testURI"
-})
+//@SpringBootTest(properties = {
+//        "bfb.web.core.rest.client.user=testLogin",
+//        "bfb.web.core.rest.client.password=testPass",
+//        "bfb.web.core.rest.client.uri=http://testURI"
+//})
+@BootstrapWith(WebTestContextBootstrapper.class)
 @ContextConfiguration(classes = {RestServiceClientConfiguration.class})
+@TestPropertySource(locations = "/application.properties")
 public class BfbCoreRestServiceClientTest {
 
     private static final String LOGIN = "testLogin";
@@ -55,6 +63,7 @@ public class BfbCoreRestServiceClientTest {
         // FIXME WORKAROUND till https://github.com/spring-projects/spring-framework/commit/541ee13934cf8c1dfcbcfadce2bb6299bd25900c is not merged
         final ClientHttpRequestFactory requestFactory = (ClientHttpRequestFactory) ReflectionTestUtils.getField(template, "requestFactory");
         template.setRequestFactory(new BufferingClientHttpRequestFactory(requestFactory));
+
     }
 
     @Test
