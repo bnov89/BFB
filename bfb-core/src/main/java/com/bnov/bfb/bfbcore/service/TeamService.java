@@ -26,6 +26,7 @@ public class TeamService {
     }
 
     public List<Team> findAllTeams() {
-        return StreamSupport.stream(teamRepository.findAll().spliterator(), false).map(t -> new Team(t.getName())).collect(Collectors.toList());
+        return List.of(new Team(1L, "Pomorzanka Sejny"));
+//        return StreamSupport.stream(teamRepository.findAll().spliterator(), false).map(t -> new Team(t.getName())).collect(Collectors.toList());
     }
 }

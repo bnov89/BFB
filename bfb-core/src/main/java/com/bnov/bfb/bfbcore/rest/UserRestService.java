@@ -3,13 +3,10 @@ package com.bnov.bfb.bfbcore.rest;
 import com.bnov.bfb.bfbcore.service.UserService;
 import com.bnov.bfb.bfbcore.service.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:4200"})
 public class UserRestService {
 
     private static final String REST_SERVICE_PREFIX = "/user";
@@ -26,6 +23,7 @@ public class UserRestService {
     }
 
     @RequestMapping(value = REST_SERVICE_PREFIX + "/login/{login}")
+    @CrossOrigin(origins = {"http://localhost:4200"})
     public User findUser(@PathVariable(value = "login") String login) {
         return userService.findByLogin(login);
     }
