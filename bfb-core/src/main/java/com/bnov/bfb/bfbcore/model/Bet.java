@@ -13,7 +13,7 @@ public class Bet {
     private Integer awayScore;
 
     @ManyToOne
-    private Match match;
+    private MatchEntity matchEntity;
 
     public Long getId() {
         return id;
@@ -39,11 +39,11 @@ public class Bet {
         this.awayScore = awayScore;
     }
 
-    public Match getMatch() {
-        return match;
+    public MatchEntity getMatch() {
+        return matchEntity;
     }
 
-    public void setMatch(Match match) {
-        this.match = match;
+    public void setMatch(MatchEntity matchEntity) {
+        this.matchEntity = matchEntity;
     }
 }

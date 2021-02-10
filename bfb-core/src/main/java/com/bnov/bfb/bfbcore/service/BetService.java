@@ -2,12 +2,11 @@ package com.bnov.bfb.bfbcore.service;
 
 import com.bnov.bfb.bfbcore.dao.BetRepository;
 import com.bnov.bfb.bfbcore.dao.MatchRepository;
-import com.bnov.bfb.bfbcore.model.Match;
+import com.bnov.bfb.bfbcore.model.MatchEntity;
 import com.bnov.bfb.bfbcore.service.model.Bet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,12 +27,12 @@ public class BetService {
         betToSave.setAwayScore(bet.getAwayScore());
         betToSave.setHomeScore(bet.getAwayScore());
 //        betToSave.setMatch();
-        Match match = matchRepository.findById(bet.getMatchId()).get();
-        List<com.bnov.bfb.bfbcore.model.Bet> bets = Optional.ofNullable(match.getBets())
+        MatchEntity matchEntity = matchRepository.findById(bet.getMatchId()).get();
+        List<com.bnov.bfb.bfbcore.model.Bet> bets = Optional.ofNullable(matchEntity.getBets())
                 .map(l -> addBetToList(l, betToSave))
                 .orElseGet(() -> List.of(betToSave));
-        match.setBets(bets);
-        matchRepository.save(match);
+        matchEntity.setBets(bets);
+        matchRepository.save(matchEntity);
 //        com.bnov.bfb.bfbcore.model.Bet save = betRepository.save(betToSave);
         return new Bet();
     }

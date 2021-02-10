@@ -6,7 +6,7 @@
       xsi:schemaLocation="http://www.thymeleaf.org ">
 <head>
     <meta charset="UTF-8">
-    <title>Add match</title>
+    <title>Add matchEntity</title>
 
 </head>
 <body>
@@ -19,13 +19,13 @@
     <!--</div>-->
     <div class="container">
         <table>
-            <tr th:each="match, stat : ${matchList}">
-                <td th:text="${match.home.name}"></td>
-                <td th:text="${match.away.name}"></td>
-                <td><a th:href="@{/views/matches/{id}/update(id=${match.id})}">EDIT</a></td>
-                <td><a th:href="@{/views/matches/{id}/bet(id=${match.id})}">BET</a></td>
+            <tr th:each="matchEntity, stat : ${matchList}">
+                <td th:text="${matchEntity.home.name}"></td>
+                <td th:text="${matchEntity.away.name}"></td>
+                <td><a th:href="@{/views/matches/{id}/update(id=${matchEntity.id})}">EDIT</a></td>
+                <td><a th:href="@{/views/matches/{id}/bet(id=${matchEntity.id})}">BET</a></td>
                 <td>
-                    <ul th:each="bet : ${match.getBets()}">
+                    <ul th:each="bet : ${matchEntity.getBets()}">
                         <li >
                             <p th:text="${bet.getAwayScore()}"></p>
                         </li>
